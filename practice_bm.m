@@ -1,32 +1,32 @@
-%===============ÌúÂ·ÏßÍøÅäÁ÷Ä£ĞÍ================
+%===============é“è·¯çº¿ç½‘é…æµæ¨¡å‹================
 clc
 clear
 close all
-load data_OD;%OD¼äĞèÇó
-distance=xlsread('OD.xlsx','dis');%Á½µØ¾àÀë
-TT_c=xlsread('OD.xlsx','time_c');%ÆÕËÙÕ¾µã¼äÔËĞĞÊ±¼ä¾ØÕó
-TT_h=xlsread('OD.xlsx','time_h');%¸ßÌúÕ¾µã¼äÔËĞĞÊ±¼ä¾ØÕó
+load data_OD;%ODé—´éœ€æ±‚
+distance=xlsread('OD.xlsx','dis');%ä¸¤åœ°è·ç¦»
+TT_c=xlsread('OD.xlsx','time_c');%æ™®é€Ÿç«™ç‚¹é—´è¿è¡Œæ—¶é—´çŸ©é˜µ
+TT_h=xlsread('OD.xlsx','time_h');%é«˜é“ç«™ç‚¹é—´è¿è¡Œæ—¶é—´çŸ©é˜µ
 t=1;
 t_T=25;
 M_punish=13000;
-K_punish=100000;%³Í·£Òò×Ó
+K_punish=100000;%æƒ©ç½šå› å­
 
-theita=0.2;%logitĞ§ÓÃ¸ĞÖªÏµÊı
-learn=0.9;%Ñ§Ï°Ç¿¶È
-theita_l_so=1.5;%Éç»á½»»¥Ë®Æ½
-lmemory=t_T;%¼ÇÒä³¤¶È
-kesei_p=0.03;%Æ±¼ÛÏµÊı
-kesei_t=0.48;%Ê±¼äÏµÊı
-kesei_crowd=0.1;%Óµ¼·ÏµÊı
-air_compete=900;%ÂÃĞĞ³¤¶ÈãĞÖµ£¬¼È³¬¹ı´ËÖµ£¬·É»ú¼ÓÈë¾ºÕù
-N_agent_length=8;%ODÄÚÔª°û¿Õ¼ä±ß³¤
-%===========»ù±¾²ÎÊı===========
-[num_station,~]=size(OD_demand);%Õ¾µãÊıÁ¿
+theita=0.2;%logitæ•ˆç”¨æ„ŸçŸ¥ç³»æ•°
+learn=0.9;%å­¦ä¹ å¼ºåº¦
+theita_l_so=1.5;%ç¤¾ä¼šäº¤äº’æ°´å¹³
+lmemory=t_T;%è®°å¿†é•¿åº¦
+kesei_p=0.03;%ç¥¨ä»·ç³»æ•°
+kesei_t=0.48;%æ—¶é—´ç³»æ•°
+kesei_crowd=0.1;%æ‹¥æŒ¤ç³»æ•°
+air_compete=900;%æ—…è¡Œé•¿åº¦é˜ˆå€¼ï¼Œæ—¢è¶…è¿‡æ­¤å€¼ï¼Œé£æœºåŠ å…¥ç«äº‰
+N_agent_length=8;%ODå†…å…ƒèƒç©ºé—´è¾¹é•¿
+%===========åŸºæœ¬å‚æ•°===========
+[num_station,~]=size(OD_demand);%ç«™ç‚¹æ•°é‡
 h_speed=300;
 c_speed=120;
 a_speed=800;
-%===========ÏßÂ·=====================
-%=======¸ßËÙ============
+%===========çº¿è·¯=====================
+%=======é«˜é€Ÿ============
 route(1,:)=[1,3,5,8,7];
 route(2,:)=[1,3,6,9,0];
 route(3,:)=[1,3,5,4,0];
@@ -37,7 +37,7 @@ route(7,:)=[4,5,6,9,0];
 route(8,:)=[4,5,8,0,0];
 route(9,:)=[6,9,8,7,0];
 route(10,:)=[6,5,8,7,0];
-%=======ÆÕËÙ===========
+%=======æ™®é€Ÿ===========
 route(11,:)=[1,3,5,4,7];
 route(12,:)=[1,3,5,8,7];
 route(13,:)=[1,3,6,9,0];
@@ -47,47 +47,27 @@ route(16,:)=[2,5,4,7,0];
 route(17,:)=[2,3,6,9,0];
 route(18,:)=[4,5,6,9,0];
 route(19,:)=[6,9,8,7,0];
-%========²îÒì»¯¸ßÌúµ¥Î»Àï³ÌÆ±¼Û=======
-% p=[0.925146961036997,0.584317495831686;
-%     0.753277451772915,0.594264797961231;
-%     0.762977120200327,0.371241739349683;
-%     0.674698757073415,0.540307352901685;
-%     0.949416062596097,0.540996841860156;
-%     0.741498555807319,0.426233598022061;
-%     0.979280571240929,0.447458821311605;
-%     0.840530106693025,0.321365995092424;
-%     0.740342994073744,0.520546032036620;
-%     0.818320606580949,0.599360679397732];
+%========å·®å¼‚åŒ–é«˜é“å•ä½é‡Œç¨‹ç¥¨ä»·=======
 p=[0.75,0.25;0.75,0.25;0.75,0.25;0.75,0.25;0.75,0.25;0.75,0.25;0.75,0.25;0.75,0.25;0.75,0.25;0.75,0.25];
-% p=[0.702,0.43;
-%    0.592,0.35;
-%    0.600,0.37;
-%    0.480,0.30;
-%    0.745,0.46;
-%    0.817,0.48;
-%    0.660,0.40;
-%    0.974,0.50;
-%    0.920,0.50;
-%    0.920,0.50];
-%========¸ßÌú³¬Ô±======================
+%========é«˜é“è¶…å‘˜======================
 capacity(1)=1200;capacity(2)=1200;capacity(3)=1200;capacity(4)=1200;capacity(5)=1200;
 capacity(6)=1200;capacity(7)=1200;capacity(8)=1200;capacity(9)=1200;capacity(10)=1200;
-capacity_r(1:10)=[1.1382 1.0725 1.0793 1.1977 1.0516 1.0340 1.1044 1.1043 1.1117 1.0368];
-%=======ÆÕÌú³¬Ô±=======================
+capacity_r(1:10)=[1 1 1 1 1 1 1 1 1 1];
+%=======æ™®é“è¶…å‘˜=======================
 capacity(11)=1800;capacity(12)=1800;capacity(13)=1800;capacity(14)=1800;capacity(15)=1800;capacity(16)=1800;
 capacity(17)=1800;capacity(18)=1800;capacity(19)=1800;
 capacity_r(11)=1;capacity_r(12)=1;capacity_r(13)=1;capacity_r(14)=1;capacity_r(15)=1;capacity_r(16)=1;
 capacity_r(17)=1;capacity_r(18)=1;capacity_r(19)=1;
-%=======ÆÕËÙÌúÂ·µ¥Î»Àï³ÌÆ±¼Û==========
+%=======æ™®é€Ÿé“è·¯å•ä½é‡Œç¨‹ç¥¨ä»·==========
 p_yz=0.1;p_yw=0.2;
-%=======Ãñº½µ¥Î»Àï³ÌÆ±¼Û==============
+%=======æ°‘èˆªå•ä½é‡Œç¨‹ç¥¨ä»·==============
 p_air=1.2;
-p_air=p_game(p,p_yz,p_yw,p_air,theita,h_speed,c_speed,a_speed,OD_demand);%Ãñº½Æ±¼Û²©ŞÄµ÷Õû
-%==============¿ªÊ¼µü´ú===================
+p_air=p_game(p,p_yz,p_yw,p_air,theita,h_speed,c_speed,a_speed,OD_demand);%æ°‘èˆªç¥¨ä»·åšå¼ˆè°ƒæ•´
+%==============å¼€å§‹è¿­ä»£===================
 while t<=t_T
     for i=1:num_station
         for j=1:num_station
-            cell{i,j}.route_num=0;%ÏßÂ·ÊıÁ¿
+            cell{i,j}.route_num=0;%çº¿è·¯æ•°é‡
             cell{i,j}.route=[];
             cell{i,j}.route_length=[];
             cell{i,j}.train_travel_time=[];
@@ -101,59 +81,59 @@ while t<=t_T
             cell{i,j}.train_fee_2=[];
             cell{i,j}.air_fee=[];
             
-            %=========È·¶¨Ã¿¸öOD¼äÏßÂ·ÊıÁ¿ÓëÃû³Æ============
+            %=========ç¡®å®šæ¯ä¸ªODé—´çº¿è·¯æ•°é‡ä¸åç§°============
             for k=1:19
                 if ismember(i,route(k,:))&&ismember(j,route(k,:))&&(i~=j)
                     cell{i,j}.route_num=cell{i,j}.route_num+1;
-                    cell{i,j}.route=[cell{i,j}.route,k];%Ìí¼ÓÏßÂ·Ãû³Æ
-                    cell{i,j}.i_locate(cell{i,j}.route_num,1)=find(ismember(route(k,:),i));%¶¨Î»ÆğµãÔÚÏßÂ·ÖĞµÄÎ»ÖÃ
-                    cell{i,j}.j_locate(cell{i,j}.route_num,1)=find(ismember(route(k,:),j));%¶¨Î»ÖÕµãÔÚÏßÂ·ÖĞµÄÎ»ÖÃ
-                    if cell{i,j}.i_locate(cell{i,j}.route_num,1)<cell{i,j}.j_locate(cell{i,j}.route_num,1)%·½Ïò
-                        cell{i,j}.direction(cell{i,j}.route_num,1)=1;%ÉÏĞĞ
+                    cell{i,j}.route=[cell{i,j}.route,k];%æ·»åŠ çº¿è·¯åç§°
+                    cell{i,j}.i_locate(cell{i,j}.route_num,1)=find(ismember(route(k,:),i));%å®šä½èµ·ç‚¹åœ¨çº¿è·¯ä¸­çš„ä½ç½®
+                    cell{i,j}.j_locate(cell{i,j}.route_num,1)=find(ismember(route(k,:),j));%å®šä½ç»ˆç‚¹åœ¨çº¿è·¯ä¸­çš„ä½ç½®
+                    if cell{i,j}.i_locate(cell{i,j}.route_num,1)<cell{i,j}.j_locate(cell{i,j}.route_num,1)%æ–¹å‘
+                        cell{i,j}.direction(cell{i,j}.route_num,1)=1;%ä¸Šè¡Œ
                     else
-                        cell{i,j}.direction(cell{i,j}.route_num,1)=-1;%ÏÂĞĞ
+                        cell{i,j}.direction(cell{i,j}.route_num,1)=-1;%ä¸‹è¡Œ
                     end
                 end
             end
-            %==============¼ÆËãÃ¿¸öOD¼äµÄÊµ¼ÊÏßÂ·==============
+            %==============è®¡ç®—æ¯ä¸ªODé—´çš„å®é™…çº¿è·¯==============
             cell{i,j}.real_route=zeros(cell{i,j}.route_num,num_station);
             for k=1:cell{i,j}.route_num
-                if cell{i,j}.direction(k)==1%ÉÏĞĞÊµ¼ÊµÄÏßÂ·
+                if cell{i,j}.direction(k)==1%ä¸Šè¡Œå®é™…çš„çº¿è·¯
                     cell{i,j}.route_length(k)=size(route(cell{i,j}.route(k),cell{i,j}.i_locate(k,1):cell{i,j}.j_locate(k,1)),2);
                     cell{i,j}.real_route(k,1:cell{i,j}.route_length(k))=route(cell{i,j}.route(k),cell{i,j}.i_locate(k,1):cell{i,j}.j_locate(k,1));
-                elseif cell{i,j}.direction(k)==-1%ÏÂĞĞÊµ¼ÊµÄÏßÂ·
+                elseif cell{i,j}.direction(k)==-1%ä¸‹è¡Œå®é™…çš„çº¿è·¯
                     cell{i,j}.route_length(k)=size(route(cell{i,j}.route(k),cell{i,j}.j_locate(k,1):cell{i,j}.i_locate(k,1)),2);
                     cell{i,j}.real_route(k,1:cell{i,j}.route_length(k))=route(cell{i,j}.route(k),cell{i,j}.j_locate(k,1):cell{i,j}.i_locate(k,1));
                 end
             end
-            %============ÁĞ³µÔËĞĞÊ±¼ä¡¢Æ±¼Û==============
+            %============åˆ—è½¦è¿è¡Œæ—¶é—´ã€ç¥¨ä»·==============
             for k=1:cell{i,j}.route_num
                 cell{i,j}.train_travel_time(k)=0;
-                non_zero=cell{i,j}.real_route(k,(find(cell{i,j}.real_route(k,:)~=0)));%ÌáÈ¡Êµ¼ÊÏßÂ·
+                non_zero=cell{i,j}.real_route(k,(find(cell{i,j}.real_route(k,:)~=0)));%æå–å®é™…çº¿è·¯
                 for kk=1:length(non_zero)-1
-                    if cell{i,j}.route(k)<=10%¸ßÌú
-                        cell{i,j}.train_travel_time(k)=cell{i,j}.train_travel_time(k)+TT_h(non_zero(kk),non_zero(kk+1));%¸ßÌúÔËĞĞÊ±¼ä
-                    elseif cell{i,j}.route(k)>10%ÆÕËÙ
-                        cell{i,j}.train_travel_time(k)=cell{i,j}.train_travel_time(k)+TT_c(non_zero(kk),non_zero(kk+1));%ÆÕËÙÔËĞĞÊ±¼ä
+                    if cell{i,j}.route(k)<=10%é«˜é“
+                        cell{i,j}.train_travel_time(k)=cell{i,j}.train_travel_time(k)+TT_h(non_zero(kk),non_zero(kk+1));%é«˜é“è¿è¡Œæ—¶é—´
+                    elseif cell{i,j}.route(k)>10%æ™®é€Ÿ
+                        cell{i,j}.train_travel_time(k)=cell{i,j}.train_travel_time(k)+TT_c(non_zero(kk),non_zero(kk+1));%æ™®é€Ÿè¿è¡Œæ—¶é—´
                     end
                 end
-                if cell{i,j}.route(k)<=10%¸ßÌú
-                    cell{i,j}.train_fare_1(k)=p(cell{i,j}.route(k),1)*h_speed*cell{i,j}.train_travel_time(k);%Ò»µÈ×ùÆ±¼Û
-                    cell{i,j}.train_fare_2(k)=p(cell{i,j}.route(k),2)*h_speed*cell{i,j}.train_travel_time(k);%¶şµÈ×ùÆ±¼Û
-                elseif cell{i,j}.route(k)>10%ÆÕËÙ
-                    cell{i,j}.train_fare_1(k)=p_yw*c_speed*cell{i,j}.train_travel_time(k);%Ó²ÎÔÆ±¼Û
-                    cell{i,j}.train_fare_2(k)=p_yz*c_speed*cell{i,j}.train_travel_time(k);%Ó²×ùÆ±¼Û
+                if cell{i,j}.route(k)<=10%é«˜é“
+                    cell{i,j}.train_fare_1(k)=p(cell{i,j}.route(k),1)*h_speed*cell{i,j}.train_travel_time(k);%ä¸€ç­‰åº§ç¥¨ä»·
+                    cell{i,j}.train_fare_2(k)=p(cell{i,j}.route(k),2)*h_speed*cell{i,j}.train_travel_time(k);%äºŒç­‰åº§ç¥¨ä»·
+                elseif cell{i,j}.route(k)>10%æ™®é€Ÿ
+                    cell{i,j}.train_fare_1(k)=p_yw*c_speed*cell{i,j}.train_travel_time(k);%ç¡¬å§ç¥¨ä»·
+                    cell{i,j}.train_fare_2(k)=p_yz*c_speed*cell{i,j}.train_travel_time(k);%ç¡¬åº§ç¥¨ä»·
                 end
             end
-            cell{i,j}.air_travel_time=distance(i,j)/a_speed;%Ãñº½ÔËĞĞÊ±¼ä
-            cell{i,j}.air_fare=distance(i,j)*p_air;%Ãñº½Æ±¼Û
-            %===========¼ÆËã¸÷ÖÖ³öĞĞ·½Ê½ÈËÊı=====================
+            cell{i,j}.air_travel_time=distance(i,j)/a_speed;%æ°‘èˆªè¿è¡Œæ—¶é—´
+            cell{i,j}.air_fare=distance(i,j)*p_air;%æ°‘èˆªç¥¨ä»·
+            %===========è®¡ç®—å„ç§å‡ºè¡Œæ–¹å¼äººæ•°=====================
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             if t==1&&i~=j
-                %=============Ãñº½¹ãÒå·ÑÓÃ==============
+                %=============æ°‘èˆªå¹¿ä¹‰è´¹ç”¨==============
                 cell{i,j}.air_fee=kesei_t*cell{i,j}.air_travel_time+kesei_p*cell{i,j}.air_fare;
                 cell{i,j}.air_fee_b=cell{i,j}.air_fee;
-                %=============ÌúÂ·¹ãÒå·ÑÓÃ===============
+                %=============é“è·¯å¹¿ä¹‰è´¹ç”¨===============
                 for k=1:cell{i,j}.route_num
                     cell{i,j}.train_fee_1(k)=kesei_t*cell{i,j}.train_travel_time(k)+kesei_p*cell{i,j}.train_fare_1(k);
                     cell{i,j}.train_fee_2(k)=kesei_t*cell{i,j}.train_travel_time(k)+kesei_p*cell{i,j}.train_fare_2(k);
@@ -161,10 +141,10 @@ while t<=t_T
                     cell{i,j}.train_fee_b_2(k)=cell{i,j}.train_fee_2(k);
                 end
             elseif t>1&&i~=j
-                %=============Ãñº½¹ãÒå·ÑÓÃ==============
+                %=============æ°‘èˆªå¹¿ä¹‰è´¹ç”¨==============
                 cell{i,j}.air_fee=kesei_t*cell{i,j}.air_travel_time+kesei_p*cell{i,j}.air_fare+theita_l_so*(sum(cell{i,j}.air_q(:))-sum(cell{i,j}.train_q_1(:))-sum(cell{i,j}.train_q_2(:)))/mean(OD_demand(:));
                 cell{i,j}.air_fee_b=kesei_t*cell{i,j}.air_travel_time+kesei_p*cell{i,j}.air_fare;
-                %=============ÌúÂ·¹ãÒå·ÑÓÃ===============
+                %=============é“è·¯å¹¿ä¹‰è´¹ç”¨===============
                 for k=1:cell{i,j}.route_num
                     cell{i,j}.train_fee_1(k)=kesei_t*cell{i,j}.train_travel_time(k)+kesei_p*cell{i,j}.train_fare_1(k)+kesei_crowd*cell{i,j}.train_crowd(k)/capacity(cell{i,j}.route(k))+theita_l_so*(sum(cell{i,j}.train_q_1(:))+sum(cell{i,j}.train_q_2(:))-sum(cell{i,j}.air_q(:)))/mean(OD_demand(:));
                     cell{i,j}.train_fee_2(k)=kesei_t*cell{i,j}.train_travel_time(k)+kesei_p*cell{i,j}.train_fare_2(k)+kesei_crowd*cell{i,j}.train_crowd(k)*capacity_r(cell{i,j}.route(k))/capacity(cell{i,j}.route(k))+theita_l_so*(sum(cell{i,j}.train_q_1(:))+sum(cell{i,j}.train_q_2(:))-sum(cell{i,j}.air_q(:)))/mean(OD_demand(:));
@@ -173,7 +153,7 @@ while t<=t_T
                 end
             end
 
-            %==============Ñ¡Ôñ²»Í¬·½Ê½µÄÈËÊı(ÆÚÍûĞ§ÓÃ+bmÄ£ĞÍ)=============================
+            %==============é€‰æ‹©ä¸åŒæ–¹å¼çš„äººæ•°(æœŸæœ›æ•ˆç”¨+bmæ¨¡å‹)=============================
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             cell=multi_agent_bm(t,i,j,cell,air_compete,learn,lmemory,distance,OD_demand,N_agent_length);
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -184,21 +164,21 @@ while t<=t_T
             end 
         end
     end
-    %==============¼ÇÂ¼Ò»Ğ©½á¹û(ÒÔOD{7,1}ÎªÀı)===========
+    %==============è®°å½•ä¸€äº›ç»“æœ(ä»¥OD{7,1}ä¸ºä¾‹)===========
     flow_1(t)=cell{1,8}.train_q_1(1);
     flow_2(t)=cell{1,8}.train_q_1(2);
     flow_3(t)=cell{1,8}.train_q_2(1);
     flow_4(t)=cell{1,8}.train_q_2(2);
     flow_5(t)=cell{7,6}.air_q;
     
-    %===========¼ì²éÊÕÁ²ĞÔ=======================
-    air_qq(t)=mean(mean(air_q(:,:)));%¼ì²éÊÕÁ²ĞÔ
+    %===========æ£€æŸ¥æ”¶æ•›æ€§=======================
+    air_qq(t)=mean(mean(air_q(:,:)));%æ£€æŸ¥æ”¶æ•›æ€§
     if t==1||t==2
         q_var(t)=0.95;
     else
-        q_var(t)=abs(air_qq(t)-air_qq(t-1))/air_qq(t-1);%¼ì²éÊÕÁ²ĞÔ
+        q_var(t)=abs(air_qq(t)-air_qq(t-1))/air_qq(t-1);%æ£€æŸ¥æ”¶æ•›æ€§
     end
-    %=============¼ÆËãÃ¿ÌõÏßÂ·µÄÊ¹ÓÃÇé¿ö===========
+    %=============è®¡ç®—æ¯æ¡çº¿è·¯çš„ä½¿ç”¨æƒ…å†µ===========
     q=zeros(num_station,num_station,19);
     for ii=1:num_station
         for jj=1:num_station
@@ -215,11 +195,11 @@ while t<=t_T
             end
         end
     end
-    %===========¼ÆËãÃ¿¸öÂ·¶ÎµÄ¿ÍÁ÷Óµ¼·³Ì¶È£¨ÉÏĞĞ£©================
+    %===========è®¡ç®—æ¯ä¸ªè·¯æ®µçš„å®¢æµæ‹¥æŒ¤ç¨‹åº¦ï¼ˆä¸Šè¡Œï¼‰================
     for k=1:size(route,1)
         for ii=1:size(route,2)-1
             if route(k,ii)*route(k,ii+1)==0
-                crowd(k,ii,1)=0;%ÉÏĞĞ
+                crowd(k,ii,1)=0;%ä¸Šè¡Œ
             else
                 if ii==1
                     crowd(k,ii,1)=0;
@@ -246,11 +226,11 @@ while t<=t_T
             end   
         end
     end
-    %===========¼ÆËãÃ¿¸öÂ·¶ÎµÄÓµ¼·³Ì¶È£¨ÏÂĞĞ£©================
+    %===========è®¡ç®—æ¯ä¸ªè·¯æ®µçš„æ‹¥æŒ¤ç¨‹åº¦ï¼ˆä¸‹è¡Œï¼‰================
     for k=1:size(route,1)
         for ii=size(route,2):-1:2
             if route(k,ii)*route(k,ii-1)==0
-                crowd(k,ii-1,2)=0;%ÏÂĞĞ
+                crowd(k,ii-1,2)=0;%ä¸‹è¡Œ
             else
                 if ii==size(route,2)
                     crowd(k,ii-1,2)=0;
@@ -279,7 +259,7 @@ while t<=t_T
             end
         end
     end
-    %==================¼ÆËãÃ¿¸öOD¼äµÄÓµ¼·¶È===================
+    %==================è®¡ç®—æ¯ä¸ªODé—´çš„æ‹¥æŒ¤åº¦===================
     for i=1:num_station
         for j=1:num_station
             for k=1:cell{i,j}.route_num
@@ -295,9 +275,9 @@ while t<=t_T
     
     t=t+1;
 end
-%===============¼ÆËãÄ¿±êº¯Êı=============
-%Ä¿±ê1£ºÌúÂ·ÔËÊä³É±¾×îĞ¡»¯
-%Ä¿±ê2£º¹ãÒå³öĞĞ·ÑÓÃ×îĞ¡»¯
+%===============è®¡ç®—ç›®æ ‡å‡½æ•°=============
+%ç›®æ ‡1ï¼šé“è·¯è¿è¾“æˆæœ¬æœ€å°åŒ–
+%ç›®æ ‡2ï¼šå¹¿ä¹‰å‡ºè¡Œè´¹ç”¨æœ€å°åŒ–
 for i=1:num_station
     for j=1:num_station
         if i~=j
@@ -312,8 +292,8 @@ for i=1:num_station
                 g_fee_train(k)=cell{i,j}.train_fee_1(k)*mean(q1_t(i,j,k,:))+cell{i,j}.train_fee_2(k)*mean(q2_t(i,j,k,:));
                 g_fee_train_b(k)=cell{i,j}.train_fee_b_1(k)*mean(q1_t(i,j,k,:))+cell{i,j}.train_fee_b_2(k)*mean(q2_t(i,j,k,:));
             end
-            profit(i,j)=sum(profit_train(:));%ÌúÂ·ÔËÊä³É±¾×îĞ¡»¯
-            g_fee(i,j)=sum(g_fee_train(:));%³öĞĞ¹ãÒå·ÑÓÃ×îĞ¡»¯
+            profit(i,j)=sum(profit_train(:));%é“è·¯è¿è¾“æˆæœ¬æœ€å°åŒ–
+            g_fee(i,j)=sum(g_fee_train(:));%å‡ºè¡Œå¹¿ä¹‰è´¹ç”¨æœ€å°åŒ–
             g_fee_b(i,j)=sum(g_fee_train_b(:));
         else
             profit(i,j)=0;
@@ -322,7 +302,7 @@ for i=1:num_station
         end
     end
 end
-%=======Ä¿±êº¯Êı£¬×Ü³É±¾×îĞ¡==============
+%=======ç›®æ ‡å‡½æ•°ï¼Œæ€»æˆæœ¬æœ€å°==============
 if mean(mean(profit))<=M_punish
     f=-mean(mean(profit))+mean(mean(g_fee));
 elseif mean(mean(profit))>M_punish
@@ -331,5 +311,3 @@ end
 
 %plot(2:t_T,q_var(2:t_T));
 plot(1:t_T,flow_1(1:t_T),1:t_T,flow_2(1:t_T),1:t_T,flow_3(1:t_T),1:t_T,flow_4(1:t_T),1:t_T,flow_5(1:t_T));
-%==========¼ÆËã×î´ó¶ÏÃæÁ÷Á¿==========
-max_q_sum=max(max(max(q(:,:,:))));
